@@ -1,75 +1,159 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Echarts plugin to support AMap</title>
-  </head>
-  <style media="screen">
-    html,body,#map {
-      margin:0;
-      padding: 0;
-      height: 100%;
+
+<head>
+  <meta charset="utf-8">
+  <title>Echarts plugin to support AMap</title>
+</head>
+<style media="screen">
+  html,
+  body,
+  #map {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+</style>
+
+<body>
+  <div id="map"></div>
+
+  <!--引入高德地图JSAPI -->
+  <script src="http://webapi.amap.com/maps?v=1.4.2&key=691de0fec54875b3de33f29c8626ffc9&plugin=AMap.CustomLayer"></script>
+  <!--引入UI组件库（1.0版本） -->
+  <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
+
+  <script src="http://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
+  <script src="./dist/echarts-amap.min.js"></script>
+
+  <script type="text/javascript">
+    var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
+    var PI = 3.1415926535897932384626;
+    var a = 6378245.0;
+    var ee = 0.00669342162296594323;
+
+    function bd09Togcj02(bd_lng, bd_lat) {
+      var x = bd_lng - 0.0065;
+      var y = bd_lat - 0.006;
+      var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_PI);
+      var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_PI);
+      var gg_lng = z * Math.cos(theta);
+      var gg_lat = z * Math.sin(theta);
+      return [gg_lng, gg_lat];
     }
-  </style>
-  <body>
-    <div id="map"></div>
-
-    <!--引入高德地图JSAPI -->
-    <script src="http://webapi.amap.com/maps?v=1.3&key=ab99f68b8f9eac7a5287f4043493e2db&plugin=AMap.CustomLayer"></script>
-    <!--引入UI组件库（1.0版本） -->
-    <script src="//webapi.amap.com/ui/1.0/main.js"></script>
-
-    <script src="http://cdn.bootcss.com/echarts/3.4.0/echarts.min.js"></script>
-    <script src="echarts-amap.js"></script>
-
-    <script type="text/javascript">
-      var echart = echarts.init(document.getElementById('map'))
-      echart.setOption({
-        amap: {
-          center: [116.397475,39.908695],
-          zoom: 5,
-          resizeEnable: true,
-          lang: 'zh_en'
+    var echart = echarts.init(document.getElementById('map'))
+    echart.setOption({
+      amap: {
+        pitch: 60,
+        viewMode: '3D',
+        zoom: 17,
+        expandZoomRange: true,
+        zooms: [3, 20],
+        mapStyle: 'amap://styles/6bd7d0c78736ef803efcbda2d85f89a5',
+        center: bd09Togcj02(121.495144, 31.242306),
+        rotation: 100
+      },
+      animation: false,
+      tooltip: {
+        trigger: 'item',
+      },
+      series: [{
+        type: 'effectScatter',
+        coordinateSystem: 'amap',
+        rippleEffect: {
+          brushType: 'stroke'
         },
-        series: [{
-          type: 'effectScatter',
-          coordinateSystem: 'amap',
-          rippleEffect: {
-            brushType: 'stroke'
-          },
-          label: {
-            normal: {
-              show: true,
-              position: 'right',
-              formatter: '{b}'
-            }
-          },
-          symbolSize: 20,
-          itemStyle: {
-            normal: {
-              color: '#f44336'
-            }
-          },
-          data: [{
-            name: '首都',
-            value: [116.397475,39.908695]
-          }]
+        label: {
+          normal: {
+            show: true,
+            position: 'right',
+            formatter: '{b}'
+          }
+        },
+        symbolSize: 20,
+        itemStyle: {
+          normal: {
+            color: '#f44336'
+          }
+        },
+        data: [{
+          name: '上海1',
+          value: bd09Togcj02(121.499021, 31.239277)
+        }, {
+          name: '上海2',
+          value: bd09Togcj02(121.492265, 31.249311)
         }]
-      })
+      }]
+    })
 
-      var map = echart.getModel().getComponent('amap').getAMap();
-      var layer = echart.getModel().getComponent('amap').getLayer();
+    var map = echart.getModel().getComponent('amap').getAMap();
+    var layer = echart.getModel().getComponent('amap').getLayer();
 
-      //加载BasicControl，loadUI的路径参数为模块名中 'ui/' 之后的部分
-      AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
-        //缩放控件
-        map.addControl(new BasicControl.Zoom({
-            position: 'lt', //left top，左上角
-            showZoomNum: false //显示zoom值
-        }));
-      });
+    //加载多边形
+    var polygonArr = new Array(); //多边形覆盖物节点坐标数组
+    polygonArr.push(bd09Togcj02(121.502722, 31.235849));
+    polygonArr.push(bd09Togcj02(121.49381, 31.234645));
+    polygonArr.push(bd09Togcj02(121.489678, 31.247489));
+    polygonArr.push(bd09Togcj02(121.492265, 31.249311));
+    polygonArr.push(bd09Togcj02(121.494313, 31.249496));
+    polygonArr.push(bd09Togcj02(121.497871, 31.248385));
+    polygonArr.push(bd09Togcj02(121.498625, 31.242302));
+    polygonArr.push(bd09Togcj02(121.499021, 31.239277));
+    var polygon = new AMap.Polygon({
+      path: polygonArr, //设置多边形边界路径
+      strokeColor: "#FF33FF", //线颜色
+      strokeOpacity: 0.2, //线透明度
+      strokeWeight: 5, //线宽
+      fillColor: "#1791fc", //填充色
+      fillOpacity: 0.15 //填充透明度
+    });
+    polygon.setMap(map);
+    AMap.plugin(["AMap.ControlBar"], function () {
+      var bar = new AMap.ControlBar();
+      map.addControl(bar);
+    });
 
-      layer.setzIndex(200)
-    </script>
-  </body>
+    //加载canvas图层(canvasLayer)
+    var canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 200;
+    var context = canvas.getContext('2d')
+    context.fillStyle = 'rgb(255,255,0)';
+    context.globalAlpha = 1;
+    var radious = 0;
+    var draw = function (argument) {
+      context.clearRect(0, 0, 200, 200)
+      context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
+      radious = (radious + 1) % 100;
+
+      context.beginPath();
+      context.arc(100, 100, radious, 0, 2 * Math.PI);
+      context.fill();
+      context.stroke();
+      CanvasLayer.reFresh(); //2D视图时可以省略
+      AMap.Util.requestAnimFrame(draw);
+    }
+
+    var CanvasLayer = new AMap.CanvasLayer({
+      canvas: canvas,
+      bounds: new AMap.Bounds(
+        bd09Togcj02(121.497022,31.241423), bd09Togcj02(121.49766,31.242171)
+      ),
+      zooms: [3, 18],
+    });
+
+    CanvasLayer.setMap(map);
+    draw();
+
+    //加载BasicControl，loadUI的路径参数为模块名中 'ui/' 之后的部分
+    AMapUI.loadUI(['control/BasicControl'], function (BasicControl) {
+      //缩放控件
+      map.addControl(new BasicControl.Zoom({
+        position: 'lt', //left top，左上角
+        showZoomNum: false //显示zoom值
+      }));
+    });
+    layer.setzIndex(200)
+  </script>
+</body>
+
 </html>
