@@ -5776,18 +5776,34 @@
     var echart = echarts.init(document.getElementById('map'));
     echart.setOption({
       amap: {
-        pitch: 60,
+        // pitch: 60,
         viewMode: '3D',
         zoom: 17,
-        expandZoomRange: true,
+      
+        // expandZoomRange: true,
         zooms: [3, 20],
         mapStyle: 'amap://styles/6bd7d0c78736ef803efcbda2d85f89a5',
         center: bd09Togcj02(121.495167, 31.242287),
-        rotation: 100
+        // rotation: 100
       },
       animation: false,
       tooltip: {
         trigger: 'item',
+      },
+      brush: {
+        toolbox: ['rect', 'polygon', 'clear'],
+        ouyOfBrush: {
+          color: '#ffff00'
+        },
+        brushStyle: {
+          borderWidth: 2,
+          color: 'rgba(0,0,0,0.2)',
+          borderColor: 'rgba(0,0,0,0.5)',
+        },
+        seriesIndex: [0, 1],
+        throttleType: 'debounce',
+        throttleDelay: 300,
+        geoIndex: 'all',
       },
       series: [{
           type: 'scatter',
@@ -5857,78 +5873,8 @@
         },
         zlevel: 2
       }
-        // {
-        //   name: 'line1',
-        //   type: 'lines',
-        //   coordinateSystem: 'amap',
-        //   polyline: true,
-        //   data: [],
-        //   silent: true,
-        //   lineStyle: {
-        //     normal: {
-        //       opacity: 0.2,
-        //       width: 1
-        //     }
-        //   },
-        //   progressiveThreshold: 500,
-        //   progressive: 200
-        // }, {
-        //   name: 'line2',
-        //   type: 'lines',
-        //   coordinateSystem: 'amap',
-        //   polyline: true,
-        //   data: [],
-        //   lineStyle: {
-        //     normal: {
-        //       width: 0
-        //     }
-        //   },
-        //   effect: {
-        //     constantSpeed: 20,
-        //     show: true,
-        //     trailLength: 0.1,
-        //     symbolSize: 1.5
-        //   },
-        //   zlevel: 1
-        // }
       ]
     });
-
-    // $.get("lines-bus.json", function (data) {
-    //   var hStep = 300 / (data.length - 1);
-    //   var busLines = [].concat.apply([], data.map(function (busLine, idx) {
-    //     var prevPt;
-    //     var points = [];
-    //     for (var i = 0; i < busLine.length; i += 2) {
-    //       var pt = [busLine[i], busLine[i + 1]];
-    //       if (i > 0) {
-    //         pt = [
-    //           prevPt[0] + pt[0],
-    //           prevPt[1] + pt[1]
-    //         ];
-    //       }
-    //       prevPt = pt;
-    //       points.push(bd09Togcj02(pt[0] / 1e4, pt[1] / 1e4));
-    //     }
-    //     return {
-    //       coords: points,
-    //       lineStyle: {
-    //         normal: {
-    //           color: echarts.color.modifyHSL('#5A94DF', Math.round(hStep * idx))
-    //         }
-    //       }
-    //     };
-    //   }));
-    //   echart.setOption({
-    //     series:[{
-    //       name:'line1',
-    //       data:busLines
-    //     },{
-    //       name:'line2',
-    //       data:busLines
-    //     }]
-    //   });
-    // });
 
 
     var map = echart.getModel().getComponent('amap').getAMap();
@@ -5997,7 +5943,8 @@
         showZoomNum: false //显示zoom值
       }));
     });
-    layer.setzIndex(200)
+    layer.setzIndex(200);
+    // map.setStatus({dragEnable:false});
   </script>
 </body>
 
