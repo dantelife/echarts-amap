@@ -45,7 +45,7 @@
     echart.setOption({
       amap: {
         pitch: 60,
-        viewMode: '3D',
+         viewMode: '3D',
         zoom: 15,
         expandZoomRange: true,
         zooms: [3, 20],
@@ -53,7 +53,7 @@
         center: bd09Togcj02(125.35, 43.86),
         // rotation: 100
       },
-      animation: true,
+      animation: false,
       tooltip: {
         trigger: 'item',
       },
@@ -81,7 +81,7 @@
         lineStyle: {
           normal: {
             opacity: 0.2,
-            width: 1
+            width: 2
           }
         },
         progressiveThreshold: 500,
@@ -93,13 +93,13 @@
         data: [],
         lineStyle: {
           normal: {
-            width: 0.02
+            width: 0.04
           }
         },
         effect: {
           constantSpeed: 40,
           show: true,
-          trailLength: 0.02,
+          trailLength: 0.04,
           symbolSize: 2
         },
         zlevel: 1
@@ -117,7 +117,8 @@
         return {
           coords:val.coords.map(coords => {
             return bd09Togcj02(coords[0],coords[1]);
-          })
+          }),
+          "lineStyle": val.lineStyle
         };
       });
       echart.setOption({

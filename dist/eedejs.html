@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+  <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+  <script src="http://webapi.amap.com/maps?v=1.4.5&key=您申请的key值&plugin=Map3D"></script>
+  <script src="http://a.amap.com/jsapi_demos/static/demo-center/model/js/three.js"></script>
+  <script src="http://a.amap.com/jsapi_demos/static/demo-center/model/js/loaders/MTLLoader.js"></script>
+  <script src="http://a.amap.com/jsapi_demos/static/demo-center/model/js/loaders/LoaderSupport.js"></script>
+  <script src="http://a.amap.com/jsapi_demos/static/demo-center/model/js/loaders/OBJLoader2.js"></script>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <script>
+    var map = new AMap.Map('container', {
+      viewMode: '3D',
+      showBuildingBlock: false,
+      center: [116.472605, 39.992075],
+      pitch: 55,
+      zoom: 17
+    });
+    map.AmbientLight = new AMap.Lights.AmbientLight([1, 1, 1], 1);
+    map.DirectionLight = new AMap.Lights.DirectionLight([1, 0, -0.5], [1, 1, 1], 1);
+
+    var loadModel = function () {
+      var modelName = 'building';
+      var scope = this;
+      var objLoader = new THREE.OBJLoader2();
+      var callbackOnLoad = function (event) {
+        var object3Dlayer = new AMap.Object3DLayer();
+        var meshes = event.detail.loaderRootNode.children;
+        for (var i = 0; i < meshes.length; i++) {
+          var vecticesF3 = meshes[i].geometry.attributes.position;
+          var vecticesNormal3 = meshes[i].geometry.attributes.normal;
+          var vecticesUV2 = meshes[i].geometry.attributes.uv;
+
+          var vectexCount = vecticesF3.count;
+
+          mesh = new AMap.Object3D.MeshAcceptLights();
+
+          var geometry = mesh.geometry;
+
+          //底部一圈
+          // debugger
+
+          var c, opacity;
+
+          var material = meshes[i].material[0] || meshes[i].material;
+          // debugger
+          if (material.map)
+            mesh.textures.push('http://a.amap.com/jsapi_demos/static/demo-center/model/1519/1519.bmp')
+
+          c = material.color;
+          opacity = material.opacity
+
+          // debugger
+          for (var j = 0; j < vectexCount; j += 1) {
+            var s = j * 3;
+            geometry.vertices.push(vecticesF3.array[s], vecticesF3.array[s + 2], -vecticesF3.array[s + 1]);
+
+            if (vecticesNormal3) {
+              geometry.vertexNormals.push(vecticesNormal3.array[s], vecticesNormal3.array[s + 2], -vecticesNormal3.array[
+                s + 1]);
+            }
+            if (vecticesUV2) {
+              geometry.vertexUVs.push(vecticesUV2.array[j * 2], 1 - vecticesUV2.array[j * 2 + 1]);
+            }
+            geometry.vertexColors.push(c.r, c.g, c.b, opacity)
+          }
+          // debugger
+          mesh.DEPTH_TEST = material.depthTest
+          // mesh.backOrFront = 'both'
+          mesh.transparent = opacity < 1;
+          mesh.scale(6, 6, 6)
+          mesh.rotateZ(-48)
+          mesh.position(new AMap.LngLat(116.472605, 39.992075))
+          object3Dlayer.add(mesh)
+        }
+        map.add(object3Dlayer)
+      };
+
+      var onLoadMtl = function (materials) {
+        // for(var i=0;i<materials.length;i+=1){
+        // 	materials[i].side=2;
+        // }
+        objLoader.setModelName(modelName);
+        objLoader.setMaterials(materials);
+        objLoader.load('http://a.amap.com/jsapi_demos/static/demo-center/model/1519/1519.obj', callbackOnLoad, null,
+          null, null, false);
+      };
+      objLoader.loadMtl('http://a.amap.com/jsapi_demos/static/demo-center/model/1519/1519.mtl', null, onLoadMtl);
+    };
+    var A = new AMap.Text({
+      text: 'XX大厦A座',
+      position: [116.472476, 39.991878],
+      height: 650,
+      verticalAlign: 'bottom',
+      map: map,
+      style: {
+        'background-color': 'red',
+        'border-color': 'white',
+        'font-size': '12px'
+      }
+    })
+
+    var B = new AMap.Text({
+      text: 'XX大厦B座',
+      verticalAlign: 'bottom',
+      position: [116.47286, 39.992178],
+      height: 651,
+      map: map,
+      style: {
+        'background-color': 'red',
+        'border-color': 'white',
+        'font-size': '12px'
+      }
+    })
+    new AMap.Circle({
+      center: [116.47246, 39.992133],
+      map: map,
+      radius: 700,
+      fillColor: 'blue',
+      strokeWeight: 1,
+      strokeColor: 'white',
+      fillOpacity: 0.05
+    })
+    new AMap.Circle({
+      center: [116.47246, 39.992133],
+      map: map,
+      radius: 500,
+      fillColor: 'blue',
+      strokeWeight: 1,
+      strokeColor: 'white',
+      fillOpacity: 0.05
+    })
+    new AMap.Circle({
+      center: [116.47246, 39.992133],
+      map: map,
+      radius: 300,
+      fillColor: 'blue',
+      strokeWeight: 1,
+      strokeColor: 'white',
+      fillOpacity: 0.05
+    })
+    var shopping = new AMap.Marker({
+      icon: 'http://a.amap.com/jsapi_demos/static/resource/shopping.png',
+      offset: new AMap.Pixel(-32, -54),
+      position: [116.468833, 39.992834],
+      map: map,
+    })
+    new AMap.Polyline({
+      path: [
+        [116.47246, 39.992133],
+        [116.468833, 39.992834]
+      ],
+      strokeColor: 'blue',
+      lineCap: 'round',
+      isOutline: true,
+      outlineColor: 'white',
+      showDir: true,
+      map: map,
+      strokeWeight: 5,
+      borderWeight: 2,
+      strokeOpacity: 0.5
+    })
+    new AMap.Text({
+      text: '购物320米',
+      position: [116.470123, 39.992572],
+      map: map,
+      style: {
+        'background-color': '#ccccff',
+        'border-color': 'white',
+        'font-size': '12px'
+      }
+    })
+    var hospital = new AMap.Marker({
+      icon: 'http://a.amap.com/jsapi_demos/static/resource/hospital.png',
+      offset: new AMap.Pixel(-32, -54),
+      position: [116.473154, 39.997106],
+      map: map,
+    })
+    new AMap.Polyline({
+      path: [
+        [116.47246, 39.992133],
+        [116.473154, 39.997106]
+      ],
+      strokeColor: 'red',
+      lineCap: 'round',
+      isOutline: true,
+      outlineColor: 'white',
+      showDir: true,
+      map: map,
+      strokeWeight: 5,
+      borderWeight: 2,
+      strokeOpacity: 0.5
+    })
+    new AMap.Text({
+      text: '医院550米',
+      position: [116.472836, 39.994887],
+      map: map,
+      style: {
+        'background-color': '#ccccff',
+        'border-color': 'white',
+        'font-size': '12px'
+      }
+    })
+    var school = new AMap.Marker({
+      icon: 'http://a.amap.com/jsapi_demos/static/resource/school.png',
+      offset: new AMap.Pixel(-32, -54),
+      position: [116.47106, 39.994558],
+      map: map
+    })
+    new AMap.Polyline({
+      path: [
+        [116.47246, 39.992133],
+        [116.47106, 39.994558]
+      ],
+      strokeColor: 'green',
+      lineCap: 'round',
+      isOutline: true,
+      outlineColor: 'white',
+      showDir: true,
+      map: map,
+      strokeWeight: 5,
+      borderWeight: 2,
+      strokeOpacity: 0.5
+    })
+    new AMap.Text({
+      text: '学校300米',
+      position: [116.471626, 39.993571],
+      map: map,
+      style: {
+        'background-color': '#ccccff',
+        'border-color': 'white',
+        'font-size': '12px'
+      }
+    })
+    loadModel()
+  </script>
+</body>
+
+</html>
