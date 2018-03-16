@@ -25,10 +25,10 @@
 
   <script src="http://cdn.bootcss.com/echarts/4.0.4/echarts.js"></script>
   <script src="./dist/echarts-amap.min.js"></script>
-  <script src="./loader/three.js"></script>
-  <script src="./loader/MTLLoader.js"></script>
-  <script src="./loader/LoaderSupport.js"></script>
-  <script src="./loader/OBJLoader2.js"></script>
+  <script src="./assets/loader/three.js"></script>
+  <script src="./assets/loader/MTLLoader.js"></script>
+  <script src="./assets/loader/LoaderSupport.js"></script>
+  <script src="./assets/loader/OBJLoader2.js"></script>
 
   <script type="text/javascript">
     //该高德坐标转百度坐标算法来源于互联网
@@ -67,8 +67,8 @@
       },
       toolbox: {
         itemSize: 25,
-        left: '20%',
-        top: '10%',
+        // left: '20%',
+        top: '22%',
         iconStyle: {
           normal: {
             borderColor: '#fff'
@@ -167,7 +167,7 @@
         zlevel: 1
       }]
     });
-    $.getJSON("scatter-place.json", function (result) {
+    $.getJSON("./assets/scatter-place.json", function (result) {
       var lineData = [{
         "fromName": "南京东路",
         "coords": [bd09Togcj02(121.488888, 31.242372), bd09Togcj02(121.494861, 31.24441), bd09Togcj02(
@@ -221,7 +221,7 @@
 
           var material = meshes[i].material[0] || meshes[i].material;
           if (material.map) {
-            mesh.textures.push('./model/1519.bmp')
+            mesh.textures.push('./assets/model/1519.bmp')
           }
 
           c = material.color;
@@ -259,10 +259,10 @@
         // }
         objLoader.setModelName(modelName);
         objLoader.setMaterials(materials);
-        objLoader.load('./model/1234.obj', callbackOnLoad, null,
+        objLoader.load('./assets/model/1234.obj', callbackOnLoad, null,
           null, null, false);
       };
-      objLoader.loadMtl('./model/1234.mtl', null, onLoadMtl);
+      objLoader.loadMtl('./assets/model/1234.mtl', null, onLoadMtl);
     };
 
     // loadModel();

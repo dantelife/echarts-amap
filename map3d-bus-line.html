@@ -113,7 +113,7 @@
       map.addControl(bar);
     });
     var data = [];
-    $.getJSON("data-1500091095891-ByeJQMPSZ.json",function(result){
+    $.getJSON("./assets/data-1500091095891-ByeJQMPSZ.json",function(result){
       data = result.map(val => {
         return {
           coords:val.coords.map(coords => {
