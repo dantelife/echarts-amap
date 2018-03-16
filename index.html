@@ -23,8 +23,8 @@
   <!--引入UI组件库（1.0版本） -->
   <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
 
-  <script src="http://cdn.bootcss.com/echarts/3.8.0/echarts.js"></script>
-  <script src="./dist/echarts-amap.js"></script>
+  <script src="http://cdn.bootcss.com/echarts/4.0.4/echarts.js"></script>
+  <script src="./dist/echarts-amap.min.js"></script>
   <script src="./loader/three.js"></script>
   <script src="./loader/MTLLoader.js"></script>
   <script src="./loader/LoaderSupport.js"></script>
@@ -142,7 +142,7 @@
         },
         progressiveThreshold: 500,
         progressive: 200,
-        zlevel: 1
+        zlevel: 2
       }, {
         name: 'line2',
         type: 'lines',
@@ -164,7 +164,7 @@
           trailLength: 0.02,
           symbolSize: 3
         },
-        zlevel: 2
+        zlevel: 1
       }]
     });
     $.getJSON("scatter-place.json", function (result) {
@@ -265,7 +265,7 @@
       objLoader.loadMtl('./model/1234.mtl', null, onLoadMtl);
     };
 
-    loadModel();
+    // loadModel();
     //加载多边形
     var polygonArr = new Array(); //多边形覆盖物节点坐标数组
     polygonArr.push(bd09Togcj02(121.502722, 31.235849));

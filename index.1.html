@@ -23,7 +23,7 @@
   <!--引入UI组件库（1.0版本） -->
   <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
 
-  <script src="http://cdn.bootcss.com/echarts/3.8.0/echarts.js"></script>
+  <script src="http://cdn.bootcss.com/echarts/4.0.4/echarts.js"></script>
   <script src="./dist/echarts-amap.min.js"></script>
 
   <script type="text/javascript">
@@ -85,7 +85,8 @@
           }
         },
         progressiveThreshold: 500,
-        progressive: 100
+        progressive: 100,
+        zlevel:2,
       }, {
         type: 'lines',
         coordinateSystem: 'amap',
