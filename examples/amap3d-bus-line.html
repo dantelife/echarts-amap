@@ -24,7 +24,7 @@
   <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
 
   <script src="http://cdn.bootcss.com/echarts/4.0.4/echarts.js"></script>
-  <script src="./dist/echarts-amap.min.js"></script>
+  <script src="../dist/echarts-amap.min.js"></script>
 
   <script type="text/javascript">
     var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
@@ -108,12 +108,13 @@
     });
 
     var map = echart.getModel().getComponent('amap').getAMap();
+    var layer = echart.getModel().getComponent('amap').getLayer();
     AMap.plugin(["AMap.ControlBar"], function () {
       var bar = new AMap.ControlBar();
       map.addControl(bar);
     });
     var data = [];
-    $.getJSON("./assets/data-1500091095891-ByeJQMPSZ.json",function(result){
+    $.getJSON("../assets/data-1500091095891-ByeJQMPSZ.json",function(result){
       data = result.map(val => {
         return {
           coords:val.coords.map(coords => {
@@ -130,6 +131,15 @@
         }]
       })
     });
+    layer.render = function () {
+        let series = echart.getOption().series;
+        echart.setOption({
+          series: []
+        });
+        echart.setOption({
+          series: series
+        });
+      }
   </script>
 </body>
 

@@ -1,0 +1,77 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="65" height="90" baseProfile="full">
+
+
+
+    <defs>
+
+
+
+    <!-- 放射渐变 -->
+
+
+
+    <radialGradient id="radialGradient_r3" cx="50%" cy="50%" r="100%" fx="50%" fy="50%">
+
+
+
+        <stop offset="0%" style="stop-color:red;stop-opacity:0.2" />
+
+
+
+        <stop offset="50%" style="stop-color:red;stop-opacity:1" />
+
+
+
+        <stop offset="100%" style="stop-color:red;stop-opacity:0.2" />
+
+
+
+    </radialGradient>
+
+
+
+</defs>
+
+
+
+    <!-- 圆1 -->
+
+
+
+    <circle cx="33" cy="60" r="0" stroke="black" stroke-width="0" fill="red" opacity="1" style="fill:url(#radialGradient_r3)">
+
+
+
+        <animate attributeName="r" attributeType="XML" begin="0s" dur="2s" from="1" to="25" repeatCount="indefinite" />
+
+
+
+        <animate attributeName="opacity" attributeType="CSS" begin="0s" dur="2s" from="1" to="0" repeatCount="indefinite"/>
+
+
+
+    </circle>
+
+
+
+    <!-- 圆2 -->
+
+
+
+    <circle cx="33" cy="60" r="0" stroke="black" stroke-width="0" fill="red" opacity="1" style="fill:url(#radialGradient_r3)">
+
+
+
+        <animate attributeName="r" attributeType="XML" begin="1.5s" dur="2s" from="1" to="25" repeatCount="indefinite" />
+
+
+
+        <animate attributeName="opacity" attributeType="CSS" begin="1.5s" dur="2s" from="1" to="0" repeatCount="indefinite"/>
+
+
+
+    </circle>
+
+
+
+</svg>

@@ -89,3 +89,14 @@ echart.setOption({
   ... // see the example above
 })
 ```
+
+###20180417更新日志
+
+>支持高德地图3D地图，可以实现更多炫酷效果，部分截图如下：
+
+
+![map3d-scatter](./assets/scatter.png)
+
+![map3d-scatter](./assets/3dline.png)
+
+**请不要参考本人示例中js的加载方式，特定环境需求，暂时没时间好好整理，等有时间会整理几种情况下的demo**

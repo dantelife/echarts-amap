@@ -17,8 +17,6 @@ require('echarts').registerAction({
     var amap = aMapModel.getAMap();
     var center = amap.getCenter();
     aMapModel.setCenterAndZoom([center.lng, center.lat], amap.getZoom());
-    aMapModel.setRotation(amap.getRotation());
-    aMapModel.setPitch(amap.getPitch());
   });
 });
 

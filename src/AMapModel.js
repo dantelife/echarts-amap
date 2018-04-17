@@ -23,13 +23,6 @@ module.exports = require('echarts').extendComponentModel({
     this.option.center = center;
     this.option.zoom = zoom;
   },
-  setRotation:function(rotation){
-    this.option.rotation = rotation;
-    
-  },
-  setPitch:function(pitch){
-    this.option.pitch = pitch;
-  },
   centerOrZoomChanged: function (center, zoom) {
     var option = this.option;
     return !(v2Equal(center, option.center) && zoom === option.zoom);
@@ -38,7 +31,5 @@ module.exports = require('echarts').extendComponentModel({
   defaultOption: {
     center: [116.397475,39.908695],
     zoom: 4,
-    pitch:0,
-    rotation:0,
   }
 });

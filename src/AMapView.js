@@ -34,7 +34,6 @@ var echarts = require('echarts');
 
 module.exports = require('echarts').extendComponentView({
   type: 'amap',
-
   render: function (aMapModel, ecModel, api) {
     var rendering = true;
 
