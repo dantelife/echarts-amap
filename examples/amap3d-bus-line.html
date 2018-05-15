@@ -131,6 +131,9 @@
         }]
       })
     });
+    // a trick for sovling the problem: 
+    // amap and echarts rendering delay
+    // try to comment out following code and drag the map,you will see it 
     layer.render = function () {
         let series = echart.getOption().series;
         echart.setOption({

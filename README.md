@@ -99,4 +99,3 @@ echart.setOption({
 
 ![map3d-scatter](./assets/3dline.png)
 
-**请不要参考本人示例中js的加载方式，特定环境需求，暂时没时间好好整理，等有时间会整理几种情况下的demo**
